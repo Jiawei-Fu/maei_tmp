@@ -2,22 +2,28 @@
 #'
 #' @description Description
 #'
-#' @param vr A data frame contains variable district and the number of voters in the district.
-#' @param dist character to specify district variable
-#' @param nvoters character to specify the number of voters vairable
-#' @param s10 can be number or proportion
-#' @param s01 default NUll: in case one
-#' @param exp_ac0  default 1 most conservative
+#' @param vr a data frame contains variables: district and corresponding the number of voters in the district.
+#' @param dist a character to specify the column name of the district variable in the vr.
+#' @param nvoters a character to specify the column number of the number of voters in the vr.
+#' @param s10 a number or vector to denote the individuals exposed to the treatment because it is assigned experimentally. It can be the exact number or proportion (between 0 and 1).
+#' @param s01 a number or vector to denote theindividuals not exposed to the treatment because is assigned experimentally. It can be the exact number or proportion (between 0 and 1). Default value is NUll which means it is the case one  in which a researcher designs and implements an intervention that would otherwise not have occurred. If it is not NUll, it means case 2 in which some intervention by an NGO or IG is modified to include an experimental component.
+#'
+#' @param exp_ac0  a number or vector to denote the expectation of untreated potential outcome. The default value is one which will return the most conservative bound.
 #'
 #' @examples
 #' \dontrun{
 #' data(rv1)  # input data
-#' get_maei_ind_rand(vr = rv1, dist = "d", nvoters = "n_voters", s10 = 20)
+#' get_maei_ind_rand(vr = rv1, dist = "d",
+#' nvoters = "n_voters", s10 = 20)
+#'
+#' get_maei_ind_rand(vr = rv1, dist = "d",
+#' nvoters = "n_voters", s10 = 0.3,s01 = 10)
 #'}
 #' @references xxx
 #'
 #' @import dplyr
 #' @import magrittr
+#' @import randomizr
 #'
 #' @export
 

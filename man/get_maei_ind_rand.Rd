@@ -7,17 +7,17 @@
 get_maei_ind_rand(vr, dist, nvoters, s10, s01 = NULL, exp_ac0 = 1)
 }
 \arguments{
-\item{vr}{A data frame contains variable district and the number of voters in the district.}
+\item{vr}{a data frame contains variables: district and corresponding the number of voters in the district.}
 
-\item{dist}{character to specify district variable}
+\item{dist}{a character to specify the column name of the district variable in the vr.}
 
-\item{nvoters}{character to specify the number of voters vairable}
+\item{nvoters}{a character to specify the column number of the number of voters in the vr.}
 
-\item{s10}{can be number or proportion}
+\item{s10}{a number or vector to denote the individuals exposed to the treatment because it is assigned experimentally. It can be the exact number or proportion (between 0 and 1).}
 
-\item{s01}{default NUll: in case one}
+\item{s01}{a number or vector to denote theindividuals not exposed to the treatment because is assigned experimentally. It can be the exact number or proportion (between 0 and 1). Default value is NUll which means it is the case one  in which a researcher designs and implements an intervention that would otherwise not have occurred. If it is not NUll, it means case 2 in which some intervention by an NGO or IG is modified to include an experimental component.}
 
-\item{exp_ac0}{default 1 most conservative}
+\item{exp_ac0}{a number or vector to denote the expectation of untreated potential outcome. The default value is one which will return the most conservative bound.}
 }
 \description{
 Description
@@ -25,7 +25,11 @@ Description
 \examples{
 \dontrun{
 data(rv1)  # input data
-get_maei_ind_rand(vr = rv1, dist = "d", nvoters = "n_voters", s10 = 20)
+get_maei_ind_rand(vr = rv1, dist = "d",
+nvoters = "n_voters", s10 = 20)
+
+get_maei_ind_rand(vr = rv1, dist = "d",
+nvoters = "n_voters", s10 = 0.3,s01 = 10)
 }
 }
 \references{

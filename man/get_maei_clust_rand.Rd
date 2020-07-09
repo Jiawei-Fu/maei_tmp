@@ -9,7 +9,7 @@ get_maei_clust_rand(
   dist,
   nvoters,
   cluster,
-  z,
+  Z,
   s10,
   s01 = NULL,
   pi = NULL,
@@ -17,23 +17,23 @@ get_maei_clust_rand(
 )
 }
 \arguments{
-\item{vr}{A data frame contains variable district and the number of voters in the district.}
+\item{vr}{a data frame contains variables: district and corresponding the number of voters in the district.}
 
-\item{dist}{character variable to specify variable district}
+\item{dist}{a character to specify the column name of the district variable in the vr.}
 
-\item{nvoters}{character variable to specify the number of voters}
+\item{nvoters}{a character to specify the column number of the number of voters in the vr.}
 
-\item{cluster}{character variable to specify the cluster}
+\item{cluster}{a character to to specify the column number of the cluster variable in the vr.}
 
-\item{z}{treatment}
+\item{Z}{a vector to denote the treatment assignments.}
 
-\item{s10}{can be number or proportion}
+\item{s10}{a number or vector to denote the individuals exposed to the treatment because it is assigned experimentally. It can be the exact number or proportion (between 0 and 1).}
 
-\item{s01}{default NUll: in case one}
+\item{s01}{a number or vector to denote theindividuals not exposed to the treatment because is assigned experimentally. It can be the exact number or proportion (between 0 and 1). Default value is NUll which means it is the case one  in which a researcher designs and implements an intervention that would otherwise not have occurred. If it is not NUll, it means case 2 in which some intervention by an NGO or IG is modified to include an experimental component.}
 
-\item{pi}{pi}
+\item{exp_ac0}{a number or vector to denote the expectation of untreated potential outcome. The default value is one which will return the most conservative bound.}
 
-\item{exp_ac0}{default 1 most conservative}
+\item{a}{number or vector to to measure researchers’ ex-ante beliefs about the proportion of voters that could respond to treatment (or some manifestation thereof) in clusters where allocation of the intervention is not changed by the experiment.}
 }
 \description{
 Description
@@ -41,7 +41,21 @@ Description
 \examples{
 \dontrun{
 data(rv)  # input data
-get_maei_clust_rand (vr = rv, dist = "d", nvoters = "n_voters", cluster = "c", z = Z,  s10=0.2, s01 = 30, pi = 0.3, exp_ac0 = 1)
+require(randomizr)
+Z = block_ra(blocks = rv$d, prob = 1/3) ### generate treatment assignments
+
+get_maei_clust_rand (vr = rv, dist = "d",
+nvoters = "n_voters",
+cluster = "c", Z = Z,
+s10=0.2, s01 = 30, pi = 0.3,
+ exp_ac0 = 1)
+
+get_maei_clust_rand (vr = rv, dist = "d",
+nvoters = "n_voters",
+cluster = "c", Z = Z,
+s10=round(runif(n = 150,min = 25,max = 75)),
+s01 = 30,
+pi = 0.1)
 }
 
 
