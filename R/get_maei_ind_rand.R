@@ -10,15 +10,25 @@
 #'
 #' @param exp_ac0  a number or vector to denote the expectation of untreated potential outcome. The default value is one which will return the most conservative bound.
 #'
-#' @examples
-#' \dontrun{
-#' data(rv1)  # input data
-#' get_maei_ind_rand(vr = rv1, dist = "d",
-#' nvoters = "n_voters", s10 = 20)
+#' @param psi a number or vector specifying “margin to pivotality”, as minimum change in vote share, as a proportion of registered voters, at which a different officeholder would be elected in district. If psi > 2MAEI (Maximal Aggregate Electoral Impact), an experiment could not change the ultimate electoral outcome (the output result will show "PASS" the decision rule); in contrast, if psi < 2MAEI, the experiment could affect the ultimate electoral outcome (the output result will show "FAIL").
 #'
+#' @examples
+#' ### input data
+#' data(rv1)
+#'
+#' ### specify s10 as a constant number across districts
 #' get_maei_ind_rand(vr = rv1, dist = "d",
-#' nvoters = "n_voters", s10 = 0.3,s01 = 10)
-#'}
+#' nvoters = "n_voters", s10 = 200)
+#'
+#' ### let s10 be different proportion and specify s01 = 10 (thus case 2)
+#' set.seed(10)
+#' get_maei_ind_rand(vr = rv1, dist = "d",
+#' nvoters = "n_voters", s10 = runif(10), s01 = 10)
+#'
+#' ### add margin to pivotality say psi = 0.3
+#' get_maei_ind_rand(vr = rv1, dist = "d",
+#' nvoters = "n_voters", s10 = 0.13, s01 = 10, psi = 0.3)
+#'
 #' @references xxx
 #'
 #' @import dplyr
@@ -32,7 +42,9 @@ get_maei_ind_rand <- function(vr, ## voter_rolls
                               nvoters, ## the same
                               s10,  ## number or proportion
                               s01 = NULL,
-                              exp_ac0 = 1 # most conservative
+                              exp_ac0 = 1, # most conservative
+                              psi = NULL,
+                              ...
 ){
 
   ### check the inputs
@@ -60,6 +72,10 @@ get_maei_ind_rand <- function(vr, ## voter_rolls
   if (!(class(nvoters) %in% "character"))
     stop("nvoters should be a character variable that is the same as the column name of the number of the voters in the vr")
 
+  if(!is.null(psi)){
+    if(sum(psi>1 | psi<0)>=1)
+      stop("psi denotes the proportion of registered voters; it should be between 0 and 1")
+  }
 
   ### generate complete data.frame
 
@@ -92,29 +108,48 @@ get_maei_ind_rand <- function(vr, ## voter_rolls
     )
 
 
+
   ### output
 
   output <- tibble(Districts = vr[,dist],
                    MAEI_d = maei1$MAEI_d)
 
 
-  # output <- matrix(NA, nrow = nrow(vr), ncol = 2)
-  #  output[,1] <- vr[,dist]
-  # output[,2] <- maei$MAEI_d
-  # colnames(output) <- c("Districts","MAEI_d")
+  ### psi
+
+  if (!is.null(psi)){
+
+    output <- output %>%
+      mutate(psi=psi) %>%
+      mutate(result = NA)
+    output$result <- ifelse(output$psi>2*output$MAEI_d,"PASS","FAIL")
+
+    output <- output[,-3]
+
+  }
+
 
   cat("\n")
   cat("MAEI_ind_randomized: exp_ac0 = ", exp_ac0,"\n")
   cat("Individually randomized: ", case,"\n")
+
+  if(!is.null(psi)){cat("Margin to pivotality Psi: ", psi,"\n")}
   print(output)
 
-  # for extracttion
+  # for extraction
 
   output2 <- list()
   output2$MAEI_d <- output[, 2]
   output2$district <- output[, 1]
 
+  if(!is.null(psi)){
+    output2$psi <- psi
+    output2$result <- output[,3]
+  }
+
+
   invisible(output2)
 }
+
 
 

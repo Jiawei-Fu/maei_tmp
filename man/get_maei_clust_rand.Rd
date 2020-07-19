@@ -13,7 +13,9 @@ get_maei_clust_rand(
   s10,
   s01 = NULL,
   pi = NULL,
-  exp_ac0 = 1
+  exp_ac0 = 1,
+  psi = NULL,
+  ...
 )
 }
 \arguments{
@@ -33,31 +35,48 @@ get_maei_clust_rand(
 
 \item{exp_ac0}{a number or vector to denote the expectation of untreated potential outcome. The default value is one which will return the most conservative bound.}
 
+\item{psi}{a number or vector specifying “margin to pivotality”, as minimum change in vote share, as a proportion of registered voters, at which a different officeholder would be elected in district. If psi > 2MAEI (Maximal Aggregate Electoral Impact), an experiment could not change the ultimate electoral outcome (the output result will show "PASS" the decision rule); in contrast, if psi < 2MAEI, the experiment could affect the ultimate electoral outcome (the output result will show "FAIL").}
+
 \item{a}{number or vector to to measure researchers’ ex-ante beliefs about the proportion of voters that could respond to treatment (or some manifestation thereof) in clusters where allocation of the intervention is not changed by the experiment.}
 }
 \description{
 Description
 }
 \examples{
-\dontrun{
-data(rv)  # input data
+
+### input data
+data(rv)
 require(randomizr)
+set.seed(10)
 Z = block_ra(blocks = rv$d, prob = 1/3) ### generate treatment assignments
 
+### specify s01 as 30 (thus case 2)
 get_maei_clust_rand (vr = rv, dist = "d",
 nvoters = "n_voters",
 cluster = "c", Z = Z,
-s10=0.2, s01 = 30, pi = 0.3,
- exp_ac0 = 1)
+s10 = 0.2, s01 = 30,
+exp_ac0 = 1)
 
+### s10 can be a vector;
 get_maei_clust_rand (vr = rv, dist = "d",
 nvoters = "n_voters",
 cluster = "c", Z = Z,
-s10=round(runif(n = 150,min = 25,max = 75)),
-s01 = 30,
-pi = 0.1)
-}
+s10 = round(runif(n = 150,min = 25,max = 75)),
+s01 = 30, pi = 0.2)
 
+### add pi = 0.3 to calculate MADI_bw
+get_maei_clust_rand (vr = rv, dist = "d",
+nvoters = "n_voters",
+cluster = "c", Z = Z,
+s10 = 0.2, s01 = 30)
+
+
+### let margin to pivotality psi as say 0.8
+get_maei_clust_rand (vr = rv, dist = "d",
+nvoters = "n_voters",
+cluster = "c", Z = Z,
+s10 = 0.4,
+s01 = 30, pi = 0.1, psi = 0.8)
 
 }
 \references{

@@ -1,6 +1,6 @@
 #' Sample dataset
 #'
-#' A data set containing xxx.
+#' A dataset containing xxx.
 #'
 #'
 #' @format A sample data frame
@@ -10,5 +10,4 @@
 #'   \item{c}{individuals' income level}
 #' }
 #'
-"rv1"
-
+"rv"

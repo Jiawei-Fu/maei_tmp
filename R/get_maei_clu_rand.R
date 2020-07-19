@@ -12,27 +12,43 @@
 #' @param  a number or vector to to measure researchers’ ex-ante beliefs about the proportion of voters that could respond to treatment (or some manifestation thereof) in clusters where allocation of the intervention is not changed by the experiment.
 #' @param exp_ac0  a number or vector to denote the expectation of untreated potential outcome. The default value is one which will return the most conservative bound.
 #'
+#' @param psi a number or vector specifying “margin to pivotality”, as minimum change in vote share, as a proportion of registered voters, at which a different officeholder would be elected in district. If psi > 2MAEI (Maximal Aggregate Electoral Impact), an experiment could not change the ultimate electoral outcome (the output result will show "PASS" the decision rule); in contrast, if psi < 2MAEI, the experiment could affect the ultimate electoral outcome (the output result will show "FAIL").
 #'
 #' @examples
-#' \dontrun{
-#' data(rv)  # input data
+#'
+#' ### input data
+#' data(rv)
 #' require(randomizr)
+#' set.seed(10)
 #' Z = block_ra(blocks = rv$d, prob = 1/3) ### generate treatment assignments
 #'
+#' ### specify s01 as 30 (thus case 2)
 #' get_maei_clust_rand (vr = rv, dist = "d",
 #' nvoters = "n_voters",
 #' cluster = "c", Z = Z,
-#' s10=0.2, s01 = 30, pi = 0.3,
-#'  exp_ac0 = 1)
+#' s10 = 0.2, s01 = 30,
+#' exp_ac0 = 1)
 #'
+#' ### s10 can be a vector;
 #' get_maei_clust_rand (vr = rv, dist = "d",
 #' nvoters = "n_voters",
 #' cluster = "c", Z = Z,
-#' s10=round(runif(n = 150,min = 25,max = 75)),
-#' s01 = 30,
-#' pi = 0.1)
-#'}
+#' s10 = round(runif(n = 150,min = 25,max = 75)),
+#' s01 = 30, pi = 0.2)
 #'
+#' ### add pi = 0.3 to calculate MADI_bw
+#' get_maei_clust_rand (vr = rv, dist = "d",
+#' nvoters = "n_voters",
+#' cluster = "c", Z = Z,
+#' s10 = 0.2, s01 = 30)
+#'
+#'
+#' ### let margin to pivotality psi as say 0.8
+#' get_maei_clust_rand (vr = rv, dist = "d",
+#' nvoters = "n_voters",
+#' cluster = "c", Z = Z,
+#' s10 = 0.4,
+#' s01 = 30, pi = 0.1, psi = 0.8)
 #'
 #' @references xxx
 #'
@@ -46,11 +62,13 @@ get_maei_clust_rand <- function(vr, ## voter_rolls
                                 dist, ## specify variable name in the vr
                                 nvoters, ## the same
                                 cluster,  ## the same
-                                Z, ## treatment vector (discuss)
+                                Z, ## treatment vector
                                 s10,  ### now is number
                                 s01 = NULL,
                                 pi = NULL,
-                                exp_ac0 = 1 # most conservative
+                                exp_ac0 = 1, # most conservative
+                                psi = NULL,
+                                ...
 ){
 
   ### check the inputs
@@ -78,6 +96,11 @@ get_maei_clust_rand <- function(vr, ## voter_rolls
   if (!(class(nvoters) %in% "character"))
     stop("nvoters should be a character variable that is the same as the column name of the number of the voters in the vr")
 
+
+  if(!is.null(psi)){
+    if(sum(psi>1 | psi<0)>=1)
+      stop("psi denotes the proportion of registered voters; it should be between 0 and 1")
+  }
 
   ### generate complete data.frame
 
@@ -132,35 +155,77 @@ get_maei_clust_rand <- function(vr, ## voter_rolls
                                 ((1-exp_ac0) * sum(nvoters*Z*((s10+s01)>0))+(1-exp_ac0) * sum(nvoters*(1-Z)*pi)) / sum(nvoters) )
       )
 
+
+    if (!is.null(psi)){
+      result_MAEI_bw <- NA
+      result_MAEI_bw <- ifelse(psi>2*maei2$MAEI_bw, "PASS", "FAIL")
+      }
+
+
   }
 
   ### output
 
+  output2 <- list()
 
-  output <- tibble(Districts = maei1$district,
-                   MAEI_d = maei1$MAEI_d,
-                   MAEI_w = maei1$MAEI_w)
+  if (!is.null(psi)){
 
-  if (!is.null(pi)) {
-    output <- cbind(output,MAEI_bw = maei2$MAEI_bw)
+    result_MAEI_d <- NA
+    result_MAEI_d <- ifelse(psi>2*maei1$MAEI_d, "PASS", "FAIL")
+
+    result_MAEI_w <- NA
+    result_MAEI_w <- ifelse(psi>2*maei1$MAEI_w, "PASS", "FAIL")
+
+    output <- tibble(Districts = maei1$district,
+                     MAEI_d = maei1$MAEI_d,
+                     result_MAEI_d = result_MAEI_d,
+                     MAEI_w = maei1$MAEI_w,
+                     result_MAEI_w = result_MAEI_w)
+
+    output2$MAEI_d <- output[, 2]
+    output2$MAEI_w <- output[, 4]
+    output2$result_MAEI_d <- output[, 3]
+    output2$result_MAEI_w <- output[, 5]
+
+    if (!is.null(pi)) {
+      output <- cbind(output, MAEI_bw = maei2$MAEI_bw, result_MAEI_bw = result_MAEI_bw)
+      output2$MAEI_bw <- output[, 6]
+      output2$result_MAEI_bw <- output[, 7]
+    }
+
+    output2$psi <- psi
+
+  } else {
+
+    output <- tibble(Districts = maei1$district,
+                     MAEI_d = maei1$MAEI_d,
+                     MAEI_w = maei1$MAEI_w)
+
+    output2$MAEI_d <- output[, 2]
+    output2$MAEI_w <- output[, 3]
+
+    if (!is.null(pi)) {
+      output <- cbind(output, MAEI_bw = maei2$MAEI_bw)
+      output2$MAEI_bw <- output[, 4]
+    }
+
   }
+
+
+
 
   cat("\n")
   cat("MAEI_cluster_randomized: exp_ac0 = ", exp_ac0,"\n")
   cat("Randomized by clusters: ", case,"\n")
+  if(!is.null(psi)){cat("Margin to pivotality Psi: ", psi,"\n")}
   print(output)
 
-  # for extracttion
+  # for extraction
 
-  output2 <- list()
+
   output2$district <- output[, 1]
-  output2$MAEI_d <- output[, 2]
-  output2$MAEI_w <- output[, 3]
-
-
-  if (!is.null(pi)) output2$MAEI_bw <- output[, 4]
-
 
   invisible(output2)
 }
+
 
