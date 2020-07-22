@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_maei_clu_rand.R
 \name{get_maei_clust_rand}
 \alias{get_maei_clust_rand}
-\title{Title}
+\title{MAEI Calculation for Cluster-Randomized Experiments}
 \usage{
 get_maei_clust_rand(
   vr,
@@ -19,28 +19,28 @@ get_maei_clust_rand(
 )
 }
 \arguments{
-\item{vr}{a data frame contains variables: district and corresponding the number of voters in the district.}
+\item{vr}{a data frame contains variables: district, cluster (unit of random assignment), and corresponding the number of registered voters in the cluster.}
 
-\item{dist}{a character to specify the column name of the district variable in the vr.}
+\item{dist}{a character to specify the column name of the district variable in the data frame vr.}
 
-\item{nvoters}{a character to specify the column number of the number of voters in the vr.}
+\item{nvoters}{a character to specify the column number of the number of voters in the data frame vr.}
 
-\item{cluster}{a character to to specify the column number of the cluster variable in the vr.}
+\item{cluster}{a character to to specify the column number of the cluster variable in the data frame vr.}
 
-\item{Z}{a vector to denote the treatment assignments.}
+\item{Z}{a vector to denote the cluster-level treatment assignments.}
 
 \item{s10}{a number or vector to denote the individuals exposed to the treatment because it is assigned experimentally. It can be the exact number or proportion (between 0 and 1).}
 
-\item{s01}{a number or vector to denote theindividuals not exposed to the treatment because is assigned experimentally. It can be the exact number or proportion (between 0 and 1). Default value is NUll which means it is the case one  in which a researcher designs and implements an intervention that would otherwise not have occurred. If it is not NUll, it means case 2 in which some intervention by an NGO or IG is modified to include an experimental component.}
+\item{s01}{a number or vector to denote theindividuals not exposed to the treatment because is assigned experimentally. It can be the exact number or proportion (between 0 and 1). The default value is NULL which corresponds to the case in which a researcher designs and implements an intervention that would otherwise not have occurred. If it is not NULL, it corresponds to the case in which some intervention by a third party is modified to include an experimental component.}
 
-\item{exp_ac0}{a number or vector to denote the expectation of untreated potential outcome. The default value is one which will return the most conservative bound.}
+\item{exp_ac0}{a number or vector to denote the expectation of untreated potential outcome. The default value is 1 which will return the most conservative bound.}
 
 \item{psi}{a number or vector specifying “margin to pivotality”, as minimum change in vote share, as a proportion of registered voters, at which a different officeholder would be elected in district. If psi > 2MAEI (Maximal Aggregate Electoral Impact), an experiment could not change the ultimate electoral outcome (the output result will show "PASS" the decision rule); in contrast, if psi < 2MAEI, the experiment could affect the ultimate electoral outcome (the output result will show "FAIL").}
 
 \item{a}{number or vector to to measure researchers’ ex-ante beliefs about the proportion of voters that could respond to treatment (or some manifestation thereof) in clusters where allocation of the intervention is not changed by the experiment.}
 }
 \description{
-Description
+This function calculates the maximum aggregate electoral impact (MAEI) for cluster randomized experiments following Slough (2020). This function returns the MAEIs under each of three assumptions about interference between voters. MAEI_d assumes no within-cluster or between-cluster spillovers; MAEI_w assumes within-cluster but no between-cluster spillovers (SUTVA);  and MAEI_bw assumes within-cluster and bounded between-cluster spillovers. The argument psi uses the calculated MAEIs to implement the decision rule proposed in the paper.
 }
 \examples{
 
@@ -80,5 +80,5 @@ s01 = 30, pi = 0.1, psi = 0.8)
 
 }
 \references{
-xxx
+Slough, Tara. 2020. "The Ethics of Electoral Experimentation: Design-Based Recommendations." Working paper. Available at www.taraslough.com/assets/pdf/eee.pdf.
 }
