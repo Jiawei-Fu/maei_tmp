@@ -4,8 +4,8 @@ Title: Title
 Version: 0.1.0
 Authors@R: c(
     person("Tara", "Slough", email = "tls2145@columbia.edu", role = "aut"),
-    person("Jiawei", "Fu", email = "jf3729@nyu.edu", role = "cre"))
-Maintainer: Maybe Jiawei Fu <jiawei.fu@duke.edu>
+    person("Jiawei", "Fu", email = "jf3739@nyu.edu", role = "cre"))
+Maintainer: Maybe Jiawei Fu <jf3739@nyu.edu>
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
 License: GPL-2|GPL-3
@@ -14,4 +14,4 @@ LazyData: true
 Imports: dplyr,
     magrittr,
     randomizr
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.3
