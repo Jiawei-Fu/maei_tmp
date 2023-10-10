@@ -33,11 +33,11 @@ get_maei_clust_rand(
 
 \item{s01}{a number or vector to denote theindividuals not exposed to the treatment because is assigned experimentally. It can be the exact number or proportion (between 0 and 1). The default value is NULL which corresponds to the case in which a researcher designs and implements an intervention that would otherwise not have occurred. If it is not NULL, it corresponds to the case in which some intervention by a third party is modified to include an experimental component.}
 
+\item{pi}{a number or vector to to measure researchers’ ex-ante beliefs about the proportion of voters that could respond to treatment (or some manifestation thereof) in clusters where allocation of the intervention is not changed by the experiment.}
+
 \item{exp_ac0}{a number or vector to denote the expectation of untreated potential outcome. The default value is 1 which will return the most conservative bound.}
 
 \item{psi}{a number or vector specifying “margin to pivotality”, as minimum change in vote share, as a proportion of registered voters, at which a different officeholder would be elected in district. If psi > 2MAEI (Maximal Aggregate Electoral Impact), an experiment could not change the ultimate electoral outcome (the output result will show "PASS" the decision rule); in contrast, if psi < 2MAEI, the experiment could affect the ultimate electoral outcome (the output result will show "FAIL").}
-
-\item{a}{number or vector to to measure researchers’ ex-ante beliefs about the proportion of voters that could respond to treatment (or some manifestation thereof) in clusters where allocation of the intervention is not changed by the experiment.}
 }
 \description{
 This function calculates the maximum aggregate electoral impact (MAEI) for cluster randomized experiments following Slough (2020). This function returns the MAEIs under each of three assumptions about interference between voters. MAEI_d assumes no within-cluster or between-cluster spillovers; MAEI_w assumes within-cluster but no between-cluster spillovers (SUTVA);  and MAEI_bw assumes within-cluster and bounded between-cluster spillovers. The argument psi uses the calculated MAEIs to implement the decision rule proposed in the paper.
