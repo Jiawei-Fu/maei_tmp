@@ -12,7 +12,7 @@
 #' @param pi a number or vector to to measure researchers’ ex-ante beliefs about the proportion (between 0 and 1) of voters that could respond to treatment (or some manifestation thereof) in clusters where allocation of the intervention is not changed by the experiment.
 #' @param exp_ac0  a number or vector to denote the expectation of untreated potential outcome. The default value is 1 which will return the most conservative bound.
 #'
-#' @param psi a number or vector specifying “margin to pivotality”, as minimum change in vote share, as a proportion of registered voters, at which a different officeholder would be elected in district. If psi > 2MAEI (Maximal Aggregate Electoral Impact), an experiment could not change the ultimate electoral outcome (the output result will show "PASS" the decision rule); in contrast, if psi < 2MAEI, the experiment could affect the ultimate electoral outcome (the output result will show "FAIL").
+#' @param psi a number or vector specifying “margin to pivotality”, as minimum change in vote share, as a proportion of registered voters, at which a different officeholder would be elected in district. If psi > 2MAEI (Maximal Aggregate Electoral Impact), an experiment could not change the ultimate electoral outcome (the output result will show "PASS" the decision rule); in contrast, if psi < 2MAEI, the experiment could affect the ultimate electoral outcome (the output result will show "FAIL").  The decision rule in Slough (2023) advocates use of the fith percentile of the predictive distribution as the predicted value of psi.
 #'
 #' @examples
 #'
