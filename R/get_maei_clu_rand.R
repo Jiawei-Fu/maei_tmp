@@ -1,6 +1,6 @@
 #' @title MAEI Calculation for Cluster-Randomized Experiments
 #'
-#' @description This function calculates the maximum aggregate electoral impact (MAEI) for cluster randomized experiments following Slough (2020). This function returns the MAEIs under each of three assumptions about interference between voters. MAEI_d assumes no within-cluster or between-cluster spillovers; MAEI_w assumes within-cluster but no between-cluster spillovers (SUTVA);  and MAEI_bw assumes within-cluster and bounded between-cluster spillovers. The argument psi uses the calculated MAEIs to implement the decision rule proposed in the paper.
+#' @description This function calculates the maximum aggregate electoral impact (MAEI) for cluster randomized experiments following Slough (2023). This function returns the MAEIs under each of three assumptions about interference between voters. MAEI_d assumes no within-cluster or between-cluster spillovers; MAEI_w assumes within-cluster but no between-cluster spillovers (SUTVA);  and MAEI_bw assumes within-cluster and bounded between-cluster spillovers. The argument psi uses the calculated MAEIs to implement the decision rule proposed in the paper.
 #'
 #' @param vr a data frame contains variables: district, cluster (unit of random assignment), and corresponding the number of registered voters in the cluster.
 #' @param dist a character to specify the column name of the district variable in the data frame vr.
