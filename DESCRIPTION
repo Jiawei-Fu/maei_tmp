@@ -1,13 +1,12 @@
 Package: maei
 Type: Package
-Title: Title
+Title: Maximum Aggregate Electoral Impact (MAEI) Calculator
 Version: 0.1.0
 Authors@R: c(
     person("Tara", "Slough", email = "tls2145@columbia.edu", role = "aut"),
     person("Jiawei", "Fu", email = "jf3739@nyu.edu", role = "cre"))
-Maintainer: Maybe Jiawei Fu <jf3739@nyu.edu>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Maintainer: Jiawei Fu <jf3739@nyu.edu>
+Description: This package calculates the maximum aggregate electoral impact in electoral experiments. The two constituent functions calculate MAEIs for individually- and cluster-randomized electoral experiments, respectively.
 License: GPL-2|GPL-3
 Encoding: UTF-8
 LazyData: true
