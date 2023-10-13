@@ -6,7 +6,7 @@
 #' @format A sample data frame
 #' \describe{
 #'   \item{d}{Denotes each district}
-#'   \item{n_voters}{The number of registered voters per district.}
+#'   \item{n_voters}{The number of registered voters in each district.}
 #' }
 #'
 "rv1"
