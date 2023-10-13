@@ -1,13 +1,12 @@
-#' Sample dataset
+#' Example dataset without clusters
 #'
-#' A data set containing xxx.
+#' A data set with example data used in vignettes for for the function get_maei_ind_rand. 
 #'
 #'
 #' @format A sample data frame
 #' \describe{
-#'   \item{d}{code for each country}
-#'   \item{n_voters}{the preference for income redistribution from 1 to 10}
-#'   \item{c}{individuals' income level}
+#'   \item{d}{Denotes each district}
+#'   \item{n_voters}{The number of registered voters per district.}
 #' }
 #'
 "rv1"
