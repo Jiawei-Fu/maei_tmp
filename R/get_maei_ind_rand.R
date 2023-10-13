@@ -28,7 +28,7 @@
 #' get_maei_ind_rand(vr = rv1, dist = "d",
 #' nvoters = "n_voters", s10 = 0.13, s01 = 10, psi = 0.3)
 #'
-#' @references Slough, Tara. 2020. "The Ethics of Electoral Experimentation: Design-Based Recommendations." Working paper. Available at www.taraslough.com/assets/pdf/eee.pdf.
+#' @references Slough, Tara. 2023. "The Ethics of Electoral Experimentation: Design-Based Recommendations." Working paper. Available at www.taraslough.github.io/assets/pdf/eee.pdf.
 #'
 #'
 #' @import dplyr

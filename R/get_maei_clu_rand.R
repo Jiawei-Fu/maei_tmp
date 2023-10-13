@@ -50,7 +50,7 @@
 #' s10 = 0.4,
 #' s01 = 30, pi = 0.1, psi = 0.8)
 #'
-#' @references Slough, Tara. 2020. "The Ethics of Electoral Experimentation: Design-Based Recommendations." Working paper. Available at www.taraslough.com/assets/pdf/eee.pdf.
+#' @references Slough, Tara. 2023. "The Ethics of Electoral Experimentation: Design-Based Recommendations." Working paper. Available at www.taraslough.github.io/assets/pdf/eee.pdf.
 #'
 #' @import dplyr
 #' @import magrittr
